@@ -6,7 +6,6 @@
 - Pod Properties: Pods can include properties like nodeSelector, priority, and restartPolicy, and can also contain volumes for storage.
 - Standalone Pods: While standalone pods are useful for testing and troubleshooting, they are not rescheduled in case of failure, cannot be scaled, and do not support rolling updates. For permanent applications, deployments and stateful sets are recommended.
 
-
 ```bash
 kubectl explain pod.spec
 ```
@@ -27,9 +26,33 @@ Configuration as Code: In DevOps, it's essential to deploy applications consiste
 Declarative vs. Imperative: The declarative approach uses YAML files to define resources, while the imperative approach uses command-line commands. For the CKAD exam, both methods are important, but the imperative way can be faster.
 kubectl Commands: Key commands include kubectl create -f to create resources from a YAML file, kubectl apply -f to update or create resources, and kubectl delete -f to remove resources. The kubectl explain command helps understand the properties of resources in YAML files.
 
-To run a YAML configuration file in Kubernetes, you can use the command kubectl create -f <filename>, where <filename> is the name of your YAML file (e.g., resource.yaml). However, if the resource already exists, this command will fail, making it less practical. A better option is kubectl apply -f <filename>, which creates resources and updates existing ones as needed without failing if no updates are required. Additionally, kubectl delete -f <filename> can be used to remove resources defined in the YAML file, while kubectl replace is a less common command that replaces the current resource with the specification in the YAML file.
+To run a YAML configuration file in Kubernetes, you can use the command
 
-kubectl create -f resource.yaml: Creates resources from the YAML file. If the resource already exists, it will fail.
+```bash
+kubectl create -f <filename>
+```
+
+where `<filename>` is the name of your YAML file (e.g., resource.yaml). However, if the resource already exists, this command will fail, making it less practical.
+
+A better option is
+
+```bash
+kubectl apply -f <filename>
+```
+
+which creates resources and updates existing ones as needed without failing if no updates are required. Additionally
+
+```bash
+kubectl delete -f `<filename>
+```
+
+can be used to remove resources defined in the YAML file, while kubectl replace is a less common command that replaces the current resource with the specification in the YAML file.
+
+```bash
+kubectl create -f resource.yaml
+```
+
+Creates resources from the YAML file. If the resource already exists, it will fail.
 kubectl apply -f resource.yaml: Creates or updates resources from the YAML file. If the resource exists, it updates the properties that need updating without giving a failure.
 kubectl delete -f resource.yaml: Deletes the resources defined in the YAML file.
 kubectl replace -f resource.yaml: Replaces the current resource with the specification in the YAML file, but it's less commonly used.
@@ -69,3 +92,13 @@ Fix issues by setting necessary environment variables and restarting the pod.
 - Example scenario:
 
 The video demonstrates troubleshooting a MariaDB pod that fails due to a missing root password, showing how to set the environment variable correctly to resolve the issue.
+
+### LAB Exercise
+
+Create a YAML file that fulfills the following criteria:
+
+1. First, define a namespace called microservice.
+2. Next, create a pod named 'microdb' that utilizes the mariadb image, and ensure it runs within this namespace.
+3. Finally, implement these resources using a declarative approach.
+
+### Solution
