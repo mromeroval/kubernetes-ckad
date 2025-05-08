@@ -97,8 +97,8 @@ The video demonstrates troubleshooting a MariaDB pod that fails due to a missing
 
 Create a YAML file that fulfills the following criteria:
 
-1. First, define a namespace called microservice.
-2. Next, create a pod named 'microdb' that utilizes the mariadb image, and ensure it runs within this namespace.
+1. First, define a namespace called `nginx-server`.
+2. Next, create a pod named `nginx-pod` that utilizes the `nginx` image, and ensure it runs within this namespace.
 3. Finally, implement these resources using a declarative approach.
 
 ### Solution
