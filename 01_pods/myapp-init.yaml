@@ -1,0 +1,35 @@
+# Initializes a Pod with a single container running nginx
+# Initializes a initcontainer that copies ../index.html to nginx server in order to serve it
+# The initcontainer will run before the nginx server starts
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: myapp
+  name: myapp
+spec:
+  containers:
+  - image: nginx:latest
+    name: nginx-server
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: workdir
+  initContainers:
+  - image: busybox
+    name: init-myapp
+    command: ['sh', '-c', 'cp /config/index.html /usr/share/nginx/html']
+    volumeMounts:
+    - mountPath: /config
+      name: config-volume
+    - mountPath: /usr/share/nginx/html
+      name: workdir
+  volumes:
+  - name: workdir
+    emptyDir: {}
+  - name: config-volume
+    configMap:
+      name: index-html

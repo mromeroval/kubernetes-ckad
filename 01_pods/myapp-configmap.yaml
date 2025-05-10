@@ -1,0 +1,164 @@
+apiVersion: v1
+data:
+  index.html: |-
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kubernetes-CKAD</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                line-height: 1.6;
+                margin: 20px;
+                color: #333;
+                background-color: #f4f4f4;
+            }
+            h1, h2, h3 {
+                color: #222;
+            }
+            h1 {
+                border-bottom: 2px solid #eee;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
+            h2 {
+                border-bottom: 1px solid #eee;
+                padding-bottom: 5px;
+                margin-top: 25px;
+                margin-bottom: 15px;
+            }
+            h3 {
+                margin-top: 20px;
+                margin-bottom: 10px;
+            }
+            p {
+                margin-bottom: 15px;
+            }
+            code {
+                font-family: monospace;
+                background-color: #eee;
+                padding: 0.2em 0.4em;
+                border-radius: 3px;
+            }
+            pre {
+                background-color: #ddd;
+                padding: 10px;
+                border-radius: 5px;
+                overflow-x: auto;
+                margin-bottom: 15px;
+            }
+            pre code {
+                padding: 0;
+                background-color: transparent;
+            }
+            blockquote {
+                border-left: 5px solid #ccc;
+                padding-left: 10px;
+                margin-left: 0;
+                font-style: italic;
+                color: #555;
+            }
+            a {
+                color: #007bff;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Kubernetes-CKAD</h1>
+
+        <h2>Lab for Certified Kubernetes Application Developer (CKAD)</h2>
+
+        <p>This repository provides a step-by-step guide for setting up a Kubernetes cluster using minikube, specifically designed for practicing for the Certified Kubernetes Application Developer (CKAD) exam. The instructions are tailored for Ubuntu 22.04, but can be adapted for other Linux distributions.</p>
+
+        <h2>Setup the lab</h2>
+
+        <p>Minikube is local Kubernetes, focusing on making it easy to learn and develop for Kubernetes. All you need is Docker (or similarly compatible) container or a Virtual Machine environment</p>
+
+        <h3>Minikube requirements</h3>
+
+        <ul>
+            <li>2 CPUs or more</li>
+            <li>2GB of free memory</li>
+            <li>20GB of free disk space</li>
+            <li>Internet connection</li>
+            <li>Container or virtual machine manager (such as Docker, Podman, etc)</li>
+        </ul>
+
+        <p>Source:</p>
+        <blockquote>
+            <p><a href="https://minikube.sigs.k8s.io/docs/">https://minikube.sigs.k8s.io/docs/</a></p>
+        </blockquote>
+
+        <h3>Minikube Installation</h3>
+
+        <blockquote>
+            <p>See source page for other Operating system, Architecture and Installer type</p>
+        </blockquote>
+
+        <p>In my case I'm working with Ubuntu 22.04.5 LTS image mounted on VMware Fusion (Virtual Machine) on my personal Mac M3 as host.</p>
+
+        <p>To install the latest minikube stable release on ARM64 Linux using binary download:</p>
+
+        <pre><code>curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-arm64
+    sudo install minikube-linux-arm64 /usr/local/bin/minikube &amp;&amp; rm minikube-linux-arm64
+    </code></pre>
+
+        <p>Start your cluster<br>
+        From a terminal with administrator access run:</p>
+
+        <pre><code>minikube start
+    </code></pre>
+
+        <h4>Create custom cluster</h4>
+
+        <p>By default, <code>minikube start</code> creates a cluster named “minikube”. If you would like to create a different cluster or change its name, you can use the <code>--profile</code> (or -p) flag, which will create a cluster with the specified name. Please note that you can have multiple clusters on the same machine.</p>
+
+        <pre><code>minikube start --profile sandbox
+    </code></pre>
+
+        <p>To see the list of your current clusters, run:</p>
+
+        <pre><code>minikube profile list
+    </code></pre>
+
+        <h3>Install kubectl</h3>
+
+        <blockquote>
+            <p>Source page for detailed information: <a href="https://kubernetes.io/docs/tasks/tools/">https://kubernetes.io/docs/tasks/tools/</a></p>
+        </blockquote>
+
+        <p>To interact to the cluster we need kubectl. You must use a kubectl version that is within one minor version difference of your cluster. Using the latest compatible version of kubectl helps avoid unforeseen issues.</p>
+
+        <p>If you are on Ubuntu or another Linux distribution that supports the snap package manager, kubectl is available as a snap application.</p>
+
+        <pre><code>snap install kubectl --classic
+    kubectl version --client
+    </code></pre>
+
+        <h3>Interact with the cluster</h3>
+
+        <p>Check the workspace is ready.<br>
+        List all the pods in all namespaces:</p>
+
+        <pre><code>kubectl get pods -A
+    </code></pre>
+
+        <h2>Kubernetes architecture</h2>
+
+        <ul>
+            <li><strong>Control Plane:</strong> Manages the Kubernetes core services, including the API server, etcd (Kubernetes database), kube-scheduler, and kube-controller-manager. It can consist of one or multiple nodes for redundancy.</li>
+            <li><strong>Worker Nodes:</strong> Run the containerized applications using two core services: the container runtime (CRI) and the kubelet. These nodes execute the pods scheduled by the control plane.</li>
+            <li><strong>Core Components:</strong> The API server interacts with users via kubectl, etcd stores all Kubernetes resources, and the scheduler assigns pods to worker nodes.</li>
+        </ul>
+    </body>
+    </html>
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: index-html
