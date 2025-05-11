@@ -1,0 +1,23 @@
+
+# The job will test the backoffLimit (K8 default is 6). 
+# The container will execute the command and then exit with a non-zero code.
+# The job will retry 4 times before it is marked as failed.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: job-fail
+spec:
+  completions: 2
+  backoffLimit: 4
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - image: busybox
+        name: job-fail
+        command: ["sh", "-c", "echo 'Intentionally Failing...' & exit 1"]
+        resources: {}
+      restartPolicy: OnFailure
+status: {}

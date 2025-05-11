@@ -1,0 +1,21 @@
+# Creates a job that runs a sleep command for 60 seconds and then exits.
+# Do not specify .spec.completions, default to .spec.parallelism.
+# For a work queue Job, completions is unset (default to 1), and set parallelism to a non-negative integer.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: job-queue
+spec:
+  parallelism: 2
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - image: busybox
+        name: job-queue
+        command: ["sleep", "60"]
+        resources: {}
+      restartPolicy: Never
+status: {}

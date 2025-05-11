@@ -1,0 +1,19 @@
+# Creates a simple non-parallel job that runs a sleep command for 60 seconds and then exits.
+# It is recommended to use ttlSecondsAfterFinished to clean up the job after it has completed.
+# The job will run a single pod and will be deleted after 60 seconds.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-non-parallel
+spec:
+  ttlSecondsAfterFinished: 60
+  template:
+    metadata:
+    spec:
+      containers:
+      - image: busybox
+        name: job-non-parallel
+        command: ["sleep", "60"]
+        resources: {}
+      restartPolicy: Never
+status: {}

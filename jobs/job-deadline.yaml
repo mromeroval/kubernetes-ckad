@@ -1,0 +1,24 @@
+# The job will test the active deadline policy (activeDeadlineSeconds).
+# There will be 3 jobs to complete but it will fail after 10 seconds since the sleep command is set to run for 60 seconds.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: job-deadline
+spec:
+  completions: 3
+  # Active deadline policy will kill the job after 10 seconds.
+  activeDeadlineSeconds: 10
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - image: busybox
+        name: job-deadline
+        # The job will run a sleep command for 60 seconds.
+        # But the job will fail after 10 seconds since the activeDeadlineSeconds is set to 10.
+        command: ["sleep", "60"]
+        resources: {}
+      restartPolicy: Never
+status: {}
