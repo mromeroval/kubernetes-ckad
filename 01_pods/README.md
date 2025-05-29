@@ -64,6 +64,12 @@ Command Example: Use kubectl run mynginx --image=nginx --dry-run=client -o yaml 
 Applying YAML Files: After generating the YAML file, you can apply it using kubectl apply -f mynginx.yaml to create the resources defined in the file.
 Exploring Properties: Use kubectl explain pod.spec or kubectl explain pod.spec.containers to understand the properties you can set in the YAML file.
 
+```bash
+kubectl create namespace nginx-server --dry-run=client -o yaml > namespace.yaml
+kubectl run nginx-pod --image=nginx --namespace=nginx-server --dry-run=client -o yaml > nxinx-pod.yaml
+```
+
+
 #### Namespaces
 
 Purpose of Namespaces: Namespaces in Kubernetes leverage Linux kernel namespaces to provide resource isolation, enabling multi-tenancy and easier management of complex applications.
@@ -93,6 +99,9 @@ Fix issues by setting necessary environment variables and restarting the pod.
 
 The video demonstrates troubleshooting a MariaDB pod that fails due to a missing root password, showing how to set the environment variable correctly to resolve the issue.
 
+### Init containers
+
+
 ### LAB Exercise
 
 Create a YAML file that fulfills the following criteria:
@@ -102,3 +111,12 @@ Create a YAML file that fulfills the following criteria:
 3. Finally, implement these resources using a declarative approach.
 
 ### Solution
+
+```bash
+kubectl create namespace nginx-server --dry-run=client -o yaml > nginx-server-namespace.yaml
+kubectl run nginx-pod --image=nginx --namespace=nginx-server --dry-run=client -o yaml > nginx-pod.yaml
+kubectl apply -f nginx-server-namespace.yaml
+kubectl apply -f nginx-pod.yaml
+```
+
+### Jobs
