@@ -1,0 +1,35 @@
+# Demo storage volume in a Pod using ConfigMap and emptyDir
+# This Pod uses an init container to copy a file from a ConfigMap to the main container's volume.
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: myapp
+  name: myapp
+spec:
+  containers:
+  - image: nginx:latest
+    name: nginx-server
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources:
+    {}
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: workdir
+  initContainers:
+  - image: busybox
+    name: init-myapp
+    command: ['sh', '-c', 'cp /config/index.html /usr/share/nginx/html']
+    volumeMounts:
+    - mountPath: /config
+      name: config-volume
+    - mountPath: /usr/share/nginx/html
+      name: workdir
+  volumes:
+  - name: workdir
+    emptyDir: {}
+  - name: config-volume
+    configMap:
+      name: index-html
