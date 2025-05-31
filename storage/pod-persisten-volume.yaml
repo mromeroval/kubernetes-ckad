@@ -1,0 +1,41 @@
+# Demo of pod using persistent volume for storage
+## This Pod uses a PersistentVolumeClaim (PVC) to mount a persistent volume for data storage.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pv
+  labels:
+    run: myapp-pv
+spec:
+  containers:
+  - name: nginx-server-pv
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources:
+      requests:
+        cpu: "1m"
+        memory: "1Mi"
+      limits:
+        cpu: "10m"
+        memory: "10Mi"
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: workdir
+  initContainers:
+  - name: init-myapp-pv
+    image: busybox
+    command: ['sh', '-c', 'cp /config/index.html /usr/share/nginx/html']
+    volumeMounts:
+    - mountPath: /config
+      name: config-volume
+    - mountPath: /usr/share/nginx/html
+      name: workdir
+  volumes:
+  - name: workdir
+    persistentVolumeClaim:
+      claimName: pvc-storage-class
+  - name: config-volume
+    configMap:
+      name: index-html
