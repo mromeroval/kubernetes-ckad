@@ -1,0 +1,17 @@
+# Creates a PersistentVolumeClaim (PVC) with a specific storage class
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-storage-class
+  labels:
+    type: local
+    app: myapp
+spec:
+# manual storage class is used to match the PersistentVolume (PV) created with hostPath
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---

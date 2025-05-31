@@ -1,0 +1,16 @@
+# Creates a PersistentVolumeClaim (PVC) without specifying a storage class
+# This PVC will use the default storage class defined in the cluster
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-default-storage-class
+  labels:
+    type: local
+    app: myapp
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
