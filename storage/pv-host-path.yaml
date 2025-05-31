@@ -13,7 +13,7 @@ spec:
 # storageClassName is used to define the type of storage. manual is used for hostPath.
   storageClassName: manual
   capacity:
-    storage: 1Gi
+    storage: 3Gi
 # accessModes define how the volume can be accessed. ReadWriteOnce means it can be mounted as read-write by a single node.
   accessModes:
     - ReadWriteOnce
