@@ -1,0 +1,32 @@
+# Demo of a Deployment with strategy Recreate
+# This Deployment will update the nginx image from 1.17 to 1.18
+# It will delete all existing pods and create new ones with the new image.
+# This is useful when the application cannot handle multiple versions running at the same time
+# or when the update is not compatible with the existing pods.
+# This strategy will cause downtime during the update, as all pods will be deleted before the new ones are created.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: recreate-update
+  name: recreate-update
+  namespace: default
+spec:
+  replicas: 8
+  selector:
+    matchLabels:
+      app: recreate-update
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: recreate-update
+    spec:
+      containers:
+      - image: nginx:1.17
+        name: nginx
+        resources: {}
+      restartPolicy: Always
+status: {}
