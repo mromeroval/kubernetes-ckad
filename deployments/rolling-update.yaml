@@ -1,0 +1,32 @@
+# Demo of a Deployment with RollingUpdate strategy
+# This Deployment will update the nginx image from 1.17 to 1.18
+# and will use a maxSurge of 50% and maxUnavailable of 25%
+# meaning that during the update, up to 50% more pods can be created
+# and up to 25% of the pods can be unavailable at any time.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-update
+  name: nginx-update
+  namespace: default
+spec:
+  replicas: 8
+  selector:
+    matchLabels:
+      app: nginx-update
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nginx-update
+    spec:
+      containers:
+      - image: nginx:1.17
+        name: nginx
+        resources: {}
+status: {}
