@@ -101,11 +101,12 @@ REVISION  CHANGE-CAUSE
 1         <none>
 ```
 
-Edit the deployment so it has a new update
-Change can be done with `kubectl edit` to directly update the deployment, or by modifying the local yaml manifest and then using `kubectl apply`, or for example changing nginx version image with `kubectl set image`
+Edit the deployment so it has a new update. Change can be done with `kubectl edit` to directly update the deployment, or by modifying the local yaml manifest and then using `kubectl apply`, or for example changing nginx version image with `kubectl set image`
+
+*Best practice: update your yaml manifest and use `kubectl apply`. In our case you need to update the `rolling-update.yaml` file and change `nginx:1.17` to `nginx:1.18` to make an upgrade
 
 ```bash
-kubectl edit deployment nginx-update
+kubectl apply -f deployments/rolling-update.yaml
 ```
 After change is done, there will be a new revision in the rollout history
 
@@ -125,9 +126,31 @@ replicaset.apps/nginx-update-[id]       0         0       0
 replicaset.apps/nginx-update-[id]       8         8       8
 ```
 
-It is possible to check specific revision
+It is possible to check specific revision. In this case revision 2 has the lates update to `nginx:1.18`
 
 ```bash
-kubectl rollout history deployment nginx-update --revision=1
+kubectl rollout history deployment nginx-update --revision=2
+
+deployment.apps/nginx-update with revision #2
+Pod Template:
+  Labels:	app=nginx-update
+	pod-template-hash=[hash-id]
+  Containers:
+   nginx:
+    Image:	nginx:1.18
+
+... // more data
+
 ```
 
+#### Rollout
+To roll back (revert changes) we can use the `rollout undo` command, and use specific revision
+
+```bash
+kubectl rollout undo deployment nginx-update --to-revision=1
+
+deployment.apps/nginx-update rolled back
+
+```
+
+the  `rollout undo` command is applicatble to `daemonset`, `deployment` and `statefulset`
