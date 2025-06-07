@@ -75,6 +75,53 @@ List all the pods in all namespaces:
 kubectl get pods -A
 ```
 
+### Helm package manager
+
+For custom installation visit Helm source page:
+
+Source:
+> https://helm.sh/docs/intro/install/>
+
+
+1. Download your desired version
+2. Unpack it (`tar -zxvf helm-v3.0.0-linux-amd64.tar.gz`)
+3. Find the helm binary in the unpacked directory, and move it to its desired destination (`mv linux-amd64/helm /usr/local/bin/helm`)
+4. Run `helm help` to confirm installation
+
+
+### Working with Helm repositories
+
+Helm comes with a powerful search command. It can be used to search two different types of source:
+
+- `helm search hub` searches the Artifact Hub, which lists helm charts from dozens of different repositories.
+
+- `helm search repo` searches the repositories that you have added to your local helm client (with helm repo add). This search is done over local data, and no public network connection is needed.
+
+You can find publicly available charts by running `helm search hub`
+
+To add a chart repository. Check Artifact Hub (https://artifacthub.io/packages/search) for available Helm chart repositories.
+
+Example adding the bitnami repository
+
+```bash
+    helm repo add bitnami https://charts.bitnami.com/bitnami
+```
+
+List added repositories
+
+```bash
+    helm repo list
+```
+
+`helm search repo` reads through all of the repositories configured on the system, and looks for matches.
+
+It will display the latest stable versions of the charts found. . If you want to search using a version constraint, use --version.
+
+```bash   
+# Search for the latest stable release for nginx with a major version of 17
+ helm search repo nginx --version ^17.0.0
+```
+
 ## Kubernetes architecture
 
 - Control Plane: Manages the Kubernetes core services, including the API server, etcd (Kubernetes database), kube-scheduler, and kube-controller-manager. It can consist of one or multiple nodes for redundancy.
