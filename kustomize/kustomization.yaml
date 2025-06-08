@@ -1,0 +1,16 @@
+# Demo of kustomize to customize a deployment
+# This file is used to customize the deployment of an nginx application
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - deployment.yaml
+  - service.yaml
+images:
+  - name: nginx
+    newTag: 1.19.0
+namePrefix: custom-
+labels:
+  - pairs:
+      type: customized-app
+      owner: user
+    includeSelectors: true 
