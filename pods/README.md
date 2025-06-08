@@ -118,5 +118,3 @@ kubectl run nginx-pod --image=nginx --namespace=nginx-server --dry-run=client -o
 kubectl apply -f nginx-server-namespace.yaml
 kubectl apply -f nginx-pod.yaml
 ```
-
-### Jobs
