@@ -1,0 +1,97 @@
+apiVersion: v1
+data:
+  index.html: |-
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>ConfigMap</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 2em; background: #fafbfc; color: #222; }
+        h1, h2, h3 { color: #2c3e50; }
+        pre { background: #f4f4f4; padding: 1em; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 4px; border-radius: 3px; }
+        ul { margin-left: 1.5em; }
+        .section { margin-bottom: 2em; }
+      </style>
+    </head>
+    <body>
+      <h1>ConfigMap</h1>
+
+      <div class="section">
+        <h2>Overview</h2>
+        <p>
+          A <strong>ConfigMap</strong> is a Kubernetes API object that allows you to store non-confidential configuration data in key-value pairs. ConfigMaps enable you to separate configuration from application code, making your applications more portable and easier to manage across different environments.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>Key Features</h2>
+        <ul>
+          <li><strong>Key-Value Storage</strong>: ConfigMaps store data as key-value pairs, where each key is a string and the value can be a string, number, or complex structure (e.g., JSON, YAML).</li>
+          <li><strong>Decoupling Configuration from Code</strong>: Changes to configuration can be made without rebuilding application images, promoting better separation of concerns.</li>
+          <li><strong>Environment Variables</strong>: ConfigMaps can be used to set environment variables in your pods, allowing applications to access configuration data easily.</li>
+          <li><strong>Volume Mounts</strong>: ConfigMaps can be mounted as files in a pod, enabling applications to read configuration data from files.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>Creating a ConfigMap</h2>
+        <p>You can create a ConfigMap using the <code>kubectl</code> command-line tool. Here’s an example of creating a ConfigMap from literal values:</p>
+        <pre><code>kubectl create configmap my-config --from-literal=key1=value1 --from-literal=key2=value2</code></pre>
+        <p>Alternatively, you can create a ConfigMap from a file:</p>
+        <pre><code>kubectl create configmap my-config --from-file=path/to/config-file</code></pre>
+      </div>
+
+      <div class="section">
+        <h2>Using a ConfigMap</h2>
+        <h3>As Environment Variables</h3>
+        <p>You can reference a ConfigMap in your pod specification to set environment variables:</p>
+        <pre><code>apiVersion: v1
+    kind: Pod
+    metadata:
+      name: my-pod
+    spec:
+      containers:
+      - name: my-container
+        image: my-image
+        env:
+        - name: MY_ENV_VAR
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: key1
+    </code></pre>
+
+        <h3>As Volume Mounts</h3>
+        <p>You can also mount a ConfigMap as a volume in your pod:</p>
+        <pre><code>apiVersion: v1
+    kind: Pod
+    metadata:
+      name: my-pod
+    spec:
+      containers:
+      - name: my-container
+        image: my-image
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: my-config
+    </code></pre>
+      </div>
+
+      <div class="section">
+        <h2>Updating a ConfigMap</h2>
+        <p>To update a ConfigMap, you can use the <code>kubectl edit</code> command:</p>
+        <pre><code>kubectl edit configmap my-config</code></pre>
+        <p>Alternatively, you can apply changes from a file:</p>
+        <pre><code>kubectl apply -f configmap.yaml</code></pre>
+      </div>
+    </body>
+    </html>
+kind: ConfigMap
+metadata:
+  name: cm-index

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginxweb
+  name: nginxweb
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginxweb
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nginxweb
+    spec:
+      # This is the volume definition that points to the ConfigMap
+      volumes:
+      - name: nginxweb-volume
+        configMap:
+          name: cm-index
+      containers:
+      - image: nginx:1.27
+        name: nginx
+        resources: {}
+        # This is the volume mount that points to the ConfigMap  
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html/
+          name: nginxweb-volume
