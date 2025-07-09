@@ -1,0 +1,15 @@
+# Creates a NetworkPolicy with podSelector for app:nginx
+# Allows only ingress from podSelector that matches labels saccess:true
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: access-nginx
+spec:
+  podSelector:
+    matchLabels:
+      app: nginx
+  ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            access: "true"
