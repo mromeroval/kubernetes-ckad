@@ -1,0 +1,14 @@
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+      - name: nginx
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: green-config
+      volumes:
+      - name: green-config
+        configMap:
+          name: green-page
+

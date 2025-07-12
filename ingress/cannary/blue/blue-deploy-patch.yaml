@@ -1,0 +1,16 @@
+# kubernetes-lint-disable
+# This file is used to patch the blue deployment
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+      - name: nginx
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: blue-config
+      volumes:
+      - name: blue-config
+        configMap:
+          name: blue-page
+

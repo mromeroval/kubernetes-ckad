@@ -1,0 +1,28 @@
+# Kustomization file for the blue canary deployment
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - blue-deploy.yaml
+  - blue-svc.yaml
+  - blue-ingress.yaml
+  - blue-cm.yaml
+patches:
+  - target:
+      kind: Deployment
+      name: blue-deploy
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 2
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts
+        value:
+          - mountPath: /usr/share/nginx/html
+            name: blue-config
+      - op: add
+        path: /spec/template/spec/volumes
+        value:
+          - name: blue-config
+            configMap:
+              name: blue-page

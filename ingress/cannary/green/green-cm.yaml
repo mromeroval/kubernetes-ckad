@@ -1,0 +1,32 @@
+apiVersion: v1
+data:
+  index.html: |+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Green Page</title>
+        <style>
+            body {
+                background-color: green;
+                color: white;
+                font-family: Arial, sans-serif;
+                text-align: center;
+                padding: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome to My Green Background Page!</h1>
+        <p>This is a simple HTML page with a green background.</p>
+    </body>
+    </html>
+
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2025-07-10T20:27:18Z"
+  name: green-page
+  namespace: default
+  resourceVersion: "252086"
+  uid: ca86b64e-7a7d-47c0-af0c-4bd3b76eb7cc

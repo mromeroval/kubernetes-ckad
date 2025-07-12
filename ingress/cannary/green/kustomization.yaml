@@ -1,0 +1,28 @@
+# Kustomization file for the green canary deployment
+# kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - green-deploy.yaml
+  - green-svc.yaml
+  - green-ingress.yaml
+  - green-cm.yaml
+patches:
+  - target:
+      kind: Deployment
+      name: green-deploy
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 2
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts
+        value:
+          - mountPath: /usr/share/nginx/html
+            name: green-config
+      - op: add
+        path: /spec/template/spec/volumes
+        value:
+          - name: green-config
+            configMap:
+              name: green-page
