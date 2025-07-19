@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Page</title>
+    <style>
+        body {
+            background-color: green;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        </style>
+        <script>
+            const podName = window.location.hostname || "Local Deployment";
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("pod-name").textContent = podName;
+            });
+        </script>
+</head>
+<body>
+    <h1>Welcome to My Green Page!</h1>
+    <h2>Current Pod Name: <span id="pod-name"></span></h2>
+</body>
+</html>
